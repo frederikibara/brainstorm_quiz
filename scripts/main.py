@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 API_URL = 'https://api.privatbank.ua/p24api/exchange_rates?json&date='
 MAX_DAYS = 10
 
-async def fetch_currency_rates(session, date):
+async def take_currency_rates(session, date):
     try:
         async with session.get(API_URL + date) as response:
             response.raise_for_status()

@@ -6,13 +6,13 @@ from datetime import datetime, timedelta
 API_URL = 'https://api.privatbank.ua/p24api/exchange_rates?json&date='
 MAX_DAYS = 10
 
-async def take_currency_rates(session, date):
+async def fetch_currency_rates(session, date):
     try:
         async with session.get(API_URL + date) as response:
             response.raise_for_status()
             data = await response.json()
             rates = { 'EUR': {}, 'USD': {} }
-            for currency in data['exchangeRate']:
+            for currency in data.get('exchangeRate', []):
                 if currency['currency'] in rates:
                     rates[currency['currency']]['sale'] = currency['saleRate']
                     rates[currency['currency']]['purchase'] = currency['purchaseRate']
@@ -40,9 +40,14 @@ def main():
     parser.add_argument("days", type=int, help="Number of days of currency rates to fetch.")
     args = parser.parse_args()
     
+    if args.days <= 0:
+        print("Number of days must be greater than zero.")
+        return
+
     loop = asyncio.get_event_loop()
     rates = loop.run_until_complete(get_rates(args.days))
-    print(rates)
+    if rates:
+        print(rates)
 
 if __name__ == "__main__":
     main()

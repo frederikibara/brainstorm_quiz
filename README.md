@@ -1,4 +1,6 @@
 # Chat with WebSocket and PrivatBank API
+![png-transparent-green-grass-privatbank-kiev-brovary-logo-text-ukraine-line-thumbnail](https://github.com/user-attachments/assets/e4cac6c2-34e3-4fad-bc09-c19db927b5b1)
+
 
 This project consists of a WebSocket server that handles chat messages and retrieves currency exchange rates via the PrivatBank API. The project also includes a simple web page for interacting with the server through a browser.
 

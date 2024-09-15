@@ -13,6 +13,7 @@ python server.py
 
 **In second terminal, run:**
 python -m http.server <you port>
+
 for example : python -m http.server 8900
 
 ## **Contents**

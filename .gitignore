@@ -1,0 +1,6 @@
+__pychache__/
+storage/
+test/
+test_2/
+test_db/
+docker-compose.yml

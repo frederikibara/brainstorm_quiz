@@ -20,13 +20,16 @@ class Server:
         self.clients.add(ws)
         logging.info(f'{ws.remote_address} connects')
 
+
     async def unregister(self, ws: WebSocketServerProtocol):
         self.clients.remove(ws)
         logging.info(f'{ws.remote_address} disconnects')
 
+
     async def send_to_clients(self, message: str):
         if self.clients:
             [await client.send(message) for client in self.clients]
+
 
     async def fetch_exchange_rates(self, currencies, date=None):
         api_url = 'https://api.privatbank.ua/p24api/exchange_rates?json'
@@ -45,6 +48,7 @@ class Server:
                     return rates
                 else:
                     return None
+
 
     async def handle_exchange_command(self, ws: WebSocketServerProtocol, params):
         if len(params) > 1:
@@ -73,6 +77,7 @@ class Server:
         async with AIOFile('exchange_commands.log', 'a') as log_file:
             await log_file.write(f"{datetime.datetime.now()} - {ws.name} - Command: {' '.join(params)}\n")
 
+
     async def ws_handler(self, ws: WebSocketServerProtocol):
         await self.register(ws)
         try:
@@ -87,10 +92,12 @@ class Server:
         finally:
             await self.unregister(ws)
 
+
 async def main():
     server = Server()
     async with websockets.serve(server.ws_handler, 'localhost', 8080):
         await asyncio.Future()  # run forever
+
 
 if __name__ == '__main__':
     asyncio.run(main())

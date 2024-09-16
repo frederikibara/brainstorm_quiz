@@ -1,13 +1,17 @@
 [tool.poetry]
-name = "hw"
+name = "exchange-rate-privatbank-api"
 version = "0.1.0"
-description = ""
-authors = ["frederikibara"]
+description = "Chat with WebSocket and PrivatBank API"
+authors = ["Fred Ibara <frederikibara@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.12.0"
+python = ">=3.12,<4.0"
+aiohttp = "^3.10.5"
+aiofile = "^3.8.8"
+aiopath = "^0.7.7"
+websockets = "^13.0.1"
 
 
 [build-system]

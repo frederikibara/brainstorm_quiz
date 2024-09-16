@@ -1,4 +1,4 @@
-# Chat with WebSocket and PrivatBank API
+# Chat with WebSocket PrivatBank API (+ console app)
 
 ![images](https://github.com/user-attachments/assets/01a187fe-96f9-4bfa-9fb5-a2567a333c90)
 

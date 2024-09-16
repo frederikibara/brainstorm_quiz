@@ -1,26 +1,36 @@
-const ws = new WebSocket('ws://localhost:8080');
+document.getElementById('fetchRates').addEventListener('click', () => {
+    
+    const apiUrl = 'https://api.privatbank.ua/p24api/exchange_rates?json&date=01.01.2024';
 
-document.getElementById('formChat').addEventListener('submit', (e) => {
-    e.preventDefault();
-    ws.send(document.getElementById('textField').value);
-    document.getElementById('textField').value = '';
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayRates(data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 });
 
-document.getElementById('formCommand').addEventListener('submit', (e) => {
-    e.preventDefault();
-    ws.send(document.getElementById('commandField').value);
-    document.getElementById('commandField').value = '';
-});
+function displayRates(data) {
+    const ratesDiv = document.getElementById('rates');
+    ratesDiv.innerHTML = ''; 
 
-ws.onopen = (e) => {
-    console.log('Connected to WebSocket');
-};
+    const rates = data.exchangeRate;
 
-ws.onmessage = (e) => {
-    console.log(e.data);
-    const text = e.data;
+    if (!rates || rates.length === 0) {
+        ratesDiv.textContent = 'denied request';
+        return;
+    }
 
-    const elMsg = document.createElement('div');
-    elMsg.textContent = text;
-    document.getElementById('subscribe').appendChild(elMsg);
-};
+    rates.forEach(rate => {
+        const rateElement = document.createElement('div');
+        rateElement.textContent = `${rate.currency}: ${rate.saleRate} / ${rate.purchaseRate}`;
+        ratesDiv.appendChild(rateElement);
+    });
+}
